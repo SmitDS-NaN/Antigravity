@@ -68,14 +68,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start listening
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`🌾 AgroAI Crop Advisory Server active on port ${PORT}`);
-  console.log(`   Health: http://localhost:${PORT}/api/health`);
-  console.log(`   Supabase Live: ${isSupabaseConfigured() ? 'Connected' : 'Sandbox / Offline Fallback'}`);
-  console.log(`   Gemini AI Live: ${isGeminiConfigured() ? 'Active (@google/genai)' : 'Agronomy Rule Engine'}`);
-  console.log(`====================================================`);
-});
+// Start listening when not in Vercel serverless environment
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🌾 AgroAI Crop Advisory Server active on port ${PORT}`);
+    console.log(`   Health: http://localhost:${PORT}/api/health`);
+    console.log(`   Supabase Live: ${isSupabaseConfigured() ? 'Connected' : 'Sandbox / Offline Fallback'}`);
+    console.log(`   Gemini AI Live: ${isGeminiConfigured() ? 'Active (@google/genai)' : 'Agronomy Rule Engine'}`);
+    console.log(`====================================================`);
+  });
+}
 
 export default app;
+
